@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/453a6cdb21fa4c50b8386be0676422f4/artifacts
+end_time: 1733068334327
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 453a6cdb21fa4c50b8386be0676422f4
+run_name: nervous-tern-180
+run_uuid: 453a6cdb21fa4c50b8386be0676422f4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1733068325643
+status: 3
+tags: []
+user_id: tahaf

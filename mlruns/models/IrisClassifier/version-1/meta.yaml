@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1733068334315
+current_stage: None
+description: ''
+last_updated_timestamp: 1733068334315
+name: IrisClassifier
+run_id: 453a6cdb21fa4c50b8386be0676422f4
+run_link: ''
+source: mlflow-artifacts:/0/453a6cdb21fa4c50b8386be0676422f4/artifacts/model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/0/453a6cdb21fa4c50b8386be0676422f4/artifacts/model
+user_id: null
+version: 1
