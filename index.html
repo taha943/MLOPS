@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iris Classifier Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .input-field {
+            margin: 10px 0;
+        }
+
+        .input-field label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        .result {
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Iris Classifier Prediction</h1>
+
+        <div class="input-field">
+            <label for="sepal_length">Sepal Length</label>
+            <input type="number" id="sepal_length" placeholder="Enter Sepal Length">
+        </div>
+
+        <div class="input-field">
+            <label for="sepal_width">Sepal Width</label>
+            <input type="number" id="sepal_width" placeholder="Enter Sepal Width">
+        </div>
+
+        <div class="input-field">
+            <label for="petal_length">Petal Length</label>
+            <input type="number" id="petal_length" placeholder="Enter Petal Length">
+        </div>
+
+        <div class="input-field">
+            <label for="petal_width">Petal Width</label>
+            <input type="number" id="petal_width" placeholder="Enter Petal Width">
+        </div>
+
+        <button onclick="getPrediction()">Get Prediction</button>
+
+        <div id="output" class="output"></div>
+    </div>
+
+    <script>
+        const classNames = ["Setosa", "Versicolor", "Virginica"];
+
+        async function getPrediction() {
+
+            const sepalLength = document.getElementById("sepal_length").value;
+            const sepalWidth = document.getElementById("sepal_width").value;
+            const petalLength = document.getElementById("petal_length").value;
+            const petalWidth = document.getElementById("petal_width").value;
+
+            if (!sepalLength || !sepalWidth || !petalLength || !petalWidth) {
+                document.getElementById("output").innerHTML = "<span class='error'>Please fill in all fields.</span>";
+                return;
+            }
+
+            const data = {
+                columns:  ["sepal length (cm)", "sepal width (cm)", "petal length (cm)", "petal width (cm)"],
+                data: [[sepalLength, sepalWidth, petalLength, petalWidth]]
+            };
+
+            try {
+                const response = await fetch('http://localhost:5001/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    const predictedClass = classNames[result.predictions[0]]; 
+                    document.getElementById("output").innerHTML = "<div class='result'>Prediction: " + predictedClass + "</div>";
+                } else {
+                    document.getElementById("output").innerHTML = "<span class='error'>" + result.error + "</span>";
+                }
+            } catch (error) {
+                document.getElementById("output").innerHTML = "<span class='error'>An error occurred: " + error.message + "</span>";
+            }
+        }
+    </script>
+
+</body>
+</html>
